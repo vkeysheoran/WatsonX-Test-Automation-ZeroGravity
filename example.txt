@@ -1,0 +1,53 @@
+
+import unittest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
+
+class NewBankAccountTest(unittest.TestCase):
+    """
+    This class contains tests for opening a new bank account.
+    """
+
+    def setUp(self):
+        """
+        Set up the test environment.
+        :return: None
+        """
+        self.driver = webdriver.Chrome()
+        self.driver.get("https://www.parabank.com/openaccount.htm")
+
+    def tearDown(self):
+        """
+        Tear down the test environment.
+        :return: None
+        """
+        self.driver.quit()
+
+    def test_open_new_account(self):
+        """
+        Test opening a new bank account.
+        :return: None
+        """
+        self.assertEqual(self.driver.find_element(By.CSS_SELECTOR, "h2.title").text, "Signing up is easy!")
+        self.assertTrue(self.driver.find_element(By.CSS_SELECTOR, "input[name='customer.firstName']").is_displayed())
+        self.assertTrue(self.driver.find_element(By.CSS_SELECTOR, "input[name='customer.lastName']").is_displayed())
+        self.assertTrue(self.driver.find_element(By.CSS_SELECTOR, "input[name='customer.address.street']").is_displayed())
+        self.assertTrue(self.driver.find_element(By.CSS_SELECTOR, "input[name='customer.address.city']").is_displayed())
+        self.assertTrue(self.driver.find_element(By.CSS_SELECTOR, "input[name='customer.address.state']").is_displayed())
+        self.assertTrue(self.driver.find_element(By.CSS_SELECTOR, "input[name='customer.address.zipCode']").is_displayed())
+        self.assertTrue(self.driver.find_element(By.CSS_SELECTOR, "input[name='customer.phoneNumber']").is_displayed())
+        self.assertTrue(self.driver.find_element(By.CSS_SELECTOR, "input[name='customer.ssn']").is_displayed())
+        self.assertTrue(self.driver.find_element(By.CSS_SELECTOR, "input[name='customer.username']").is_displayed())
+        self.assertTrue(self.driver.find_element(By.CSS_SELECTOR, "input[name='customer.password']").is_displayed())
+        self.assertTrue(self.driver.find_element(By.CSS_SELECTOR, "input[name='repeatedPassword']").is_displayed())
+        self.driver.find_element(By.CSS_SELECTOR, "input[name='customer.username']").send_keys("testuser")
+        self.driver.find_element(By.CSS_SELECTOR, "input[name='customer.password']").send_keys("testpassword")
+        self.driver.find_element(By.CSS_SELECTOR, "input[name='submit']").click()
+        self.assertTrue(self.driver.find_element(By.CSS_SELECTOR, "h1.title").text.startswith("Congratulations, your account is now open."))
+        self.assertTrue(self.driver.find_element(By.CSS_SELECTOR, "td.inputbox").text.startswith("Your new account number:"))
+
+if __name__ == "__main__":
+    unittest.main()

@@ -1,0 +1,8 @@
+fastapi==0.95.1
+python-multipart==0.0.6 
+python-core
+sqlalchemy
+pymysql
+asyncmy 
+requests
+boto3
